@@ -44,13 +44,15 @@ public:
         bool isTerminal(){
             return true;
         }
-        int heuristic(){
-            int heur = 0;
+
+        int heuristic(int player){ /// player 1 for us, 0 for them
+            int heur = 0, IIIinarows = 0;
             int space_used[4][4][4]; /// is an empty space valuable, and is it a part of a 1, 2, or 3 in a row
             for (int i = 0; i < 4; ++i) {
                 for (int j = 0; j < 4; ++j) {
                     for (int k = 0; k < 4; ++k) {
                         space_used[i][j][k] = 0;
+                        if (grid[i][j][k] != 0) space_used[i][j][k] == 4; /// we don't want to count already used spaces
                     }
                 }
             }
@@ -296,7 +298,7 @@ public:
                 }
             }
 
-            /// add up everything to heuristic
+            /// add up everything to heuristic, and check for wins
             for (int i = 0; i < 4; ++i) {
                 for (int j = 0; j < 4; ++j) {
                     for (int k = 0; k < 4; ++k) {
@@ -307,6 +309,10 @@ public:
                             heur += 10;
                         }
                         else if (space_used[i][j][k] == 3) {
+                            ++IIIinarows;
+                            if (IIIinarows > 1 || player == 1) { /// we have a fork, or it's our turn
+                                return INT_MAX;
+                            }
                             heur += 100;
                         }
                     }
@@ -314,6 +320,7 @@ public:
             }
 
             /// reset space used for opponent's squares
+            IIIinarows = 0;
             for (int i = 0; i < 4; ++i) {
                 for (int j = 0; j < 4; ++j) {
                     for (int k = 0; k < 4; ++k) {
@@ -575,6 +582,10 @@ public:
                             heur -= 10;
                         }
                         else if (space_used[i][j][k] == 3) {
+                            ++IIIinarows;
+                            if (IIIinarows > 1 || player == 0) { /// They have a fork, or it's their turn
+                                return INT_MIN;
+                            }
                             heur -= 100;
                         }
                     }
@@ -583,6 +594,7 @@ public:
 
             return heur;
         }
+
         vector<Node> children(){
             vector<Node> childs;
             grid c = b;
