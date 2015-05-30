@@ -581,7 +581,7 @@ public:
                 }
             }
 
-            return hstc;
+            return heur;
         }
         vector<Node> children(){
             vector<Node> childs;
