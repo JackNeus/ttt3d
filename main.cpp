@@ -8,4 +8,5 @@ int main() {
 
     players[0] = new TeamX(length);
     players[0]->init_clock();
+    //players[0]->currentSate.grid[0][0][0] = 1;
 }
