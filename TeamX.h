@@ -46,547 +46,280 @@ public:
         }
 
         int heuristic(int player){ /// player 1 for us, 0 for them
-            int heur = 0, IIIinarows = 0;
-            int space_used[4][4][4]; /// is an empty space valuable, and is it a part of a 1, 2, or 3 in a row
-            for (int i = 0; i < 4; ++i) {
-                for (int j = 0; j < 4; ++j) {
-                    for (int k = 0; k < 4; ++k) {
-                        space_used[i][j][k] = 0;
-                        if (b[i][j][k] != 0) space_used[i][j][k] == 4; /// we don't want to count already used spaces
-                    }
-                }
-            }
+            int heur = 0;
 
-            /// check for in a rows for us horizontally
-            for (int j = 0; j < 4; ++j) { /// height
-                for (int k = 0; k < 4; ++k) { /// depth
-                    int how_many = 0;
-                    for (int z = 0; z < 4; ++z) { /// count how many squares we have in this horizontal segment
-                        if (b[z][j][k] == -1) { /// enemy piece. not possible to win for this segment
-                            how_many == -1;
-                            break;
-                        }
-                        else if (b[z][j][k] == 1) ++how_many;
-                    }
-                    if (how_many == -1) continue;
-                    for (int z = 0; z < 4; ++z) { /// update space_used
-                        if (space_used[z][j][k] < how_many) {
-                            space_used[z][j][k] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// check vertical segments
-            for (int j = 0; j < 4; ++j) { /// width
-                for (int k = 0; k < 4; ++k) { /// depth
-                    int how_many = 0;
-                    for (int z = 0; z < 4; ++z) { /// count how many squares we have in this vertical segment
-                        if (b[j][z][k] == -1) { /// enemy piece. not possible to win for this segment
-                            how_many == -1;
-                            break;
-                        }
-                        else if (b[j][z][k] == 1) ++how_many;
-                    }
-                    if (how_many == -1) continue;
-                    for (int z = 0; z < 4; ++z) { /// update space_used
-                        if (space_used[j][z][k] < how_many) {
-                            space_used[j][z][k] = how_many;
-                        }
-                    }
-                }
-            }
-
-
-            /// check z-axis segments
-            for (int j = 0; j < 4; ++j) { /// width
-                for (int k = 0; k < 4; ++k) { /// height
-                    int how_many = 0;
-                    for (int z = 0; z < 4; ++z) { /// count how many squares we have in this segment
-                        if (b[j][k][z] == -1) { /// enemy piece. not possible to win for this segment
-                            how_many == -1;
-                            break;
-                        }
-                        else if (b[j][k][z] == 1) ++how_many;
-                    }
-                    if (how_many == -1) continue;
-                    for (int z = 0; z < 4; ++z) { /// update space_used
-                        if (space_used[j][k][z] < how_many) {
-                            space_used[j][k][z] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// check diagonal segments
-
-            /// x-y diagonals
-            for (int i = 0; i < 4; ++i) { /// vary depth
-                int how_many = 0;
-                for (int j = 0; j < 4; ++j) { /// forward diagonal
-                    if (b[j][j][i] == -1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[j][j][i] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[j][j][i] < how_many) {
-                            space_used[j][j][i] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int j = 0; j < 4; ++j) { /// backward diagonal
-                    if (b[j][3 - j][i] == -1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[j][3 - j][i] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[j][3 - j][i] < how_many) {
-                            space_used[j][3 - j][i] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// y-z diagonals
-            for (int i = 0; i < 4; ++i) { /// vary width
-                int how_many = 0;
-                for (int j = 0; j < 4; ++j) { /// forward diagonal
-                    if (b[i][j][j] == -1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[i][j][j] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[i][j][j] < how_many) {
-                            space_used[i][j][j] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int j = 0; j < 4; ++j) { /// backward diagonal
-                    if (b[i][3 - j][j] == -1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[i][3 - j][j] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[i][3 - j][j] < how_many) {
-                            space_used[i][3 - j][j] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// x-z diagonals
-            for (int i = 0; i < 4; ++i) { /// vary height
-                int how_many = 0;
-                for (int j = 0; j < 4; ++j) { /// forward diagonal
-                    if (b[j][i][j] == -1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[j][i][j] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[j][i][j] < how_many) {
-                            space_used[j][i][j] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int j = 0; j < 4; ++j) { /// backward diagonal
-                    if (b[3 - j][i][j] == -1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[3 - j][i][j] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[3 - j][i][j] < how_many) {
-                            space_used[3 - j][i][j] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// 4 x-y-z diagonals
-            for (int test = 0; test < 1; ++test) { /// I don't want how_many to be global in method
-                int how_many = 0;
+            for(int g = -1; g <= 1; g += 2){
+                int IIIinarows = 0;
+                grid space_used(4, vii(4, vi(4, 0))); /// is an empty space valuable, and is it a part of a 1, 2, or 3 in a row
                 for (int i = 0; i < 4; ++i) {
-                    if (b[i][i][i] == -1) {
-                        how_many = -1;
-                        break;
-                    }
-                    else if (b[i][i][i] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (space_used[i][i][i] < how_many) {
-                            space_used[i][i][i] = how_many;
+                    for (int j = 0; j < 4; ++j) {
+                        for (int k = 0; k < 4; ++k) {
+                            space_used[i][j][k] = 0;
+                            if (b[i][j][k] != 0) space_used[i][j][k] == 4; /// we don't want to count already used spaces
                         }
                     }
                 }
 
-                how_many = 0;
-
-                for (int i = 0; i < 4; ++i) {
-                    if (b[3 - i][3 - i][i] == -1) {
-                        how_many = -1;
-                        break;
-                    }
-                    else if (b[3 - i][3 - i][i] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (space_used[3 - i][3 - i][i] < how_many) {
-                            space_used[3 - i][3 - i][i] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int i = 0; i < 4; ++i) {
-                    if (b[3 - i][i][i] == -1) {
-                        how_many = -1;
-                        break;
-                    }
-                    else if (b[3 - i][i][i] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (space_used[3 - i][i][i] < how_many) {
-                            space_used[3 - i][i][i] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int i = 0; i < 4; ++i) {
-                    if (b[i][3 - i][i] == -1) {
-                        how_many = -1;
-                        break;
-                    }
-                    else if (b[i][3 - i][i] == 1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (space_used[i][3 - i][i] < how_many) {
-                            space_used[i][3 - i][i] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// add up everything to heuristic, and check for wins
-            for (int i = 0; i < 4; ++i) {
-                for (int j = 0; j < 4; ++j) {
-                    for (int k = 0; k < 4; ++k) {
-                        if (space_used[i][j][k] == 1) {
-                            heur += 1;
-                        }
-                        else if (space_used[i][j][k] == 2) {
-                            heur += 10;
-                        }
-                        else if (space_used[i][j][k] == 3) {
-                            ++IIIinarows;
-                            if (IIIinarows > 1 || player == 1) { /// we have a fork, or it's our turn
-                                return INT_MAX;
+                /// check for in a rows for us horizontally
+                int o = (g == -1 ? 1 : -1);
+                for (int j = 0; j < 4; ++j) { /// height
+                    for (int k = 0; k < 4; ++k) { /// depth
+                        int how_many = 0;
+                        for (int z = 0; z < 4; ++z) { /// count how many squares we have in this horizontal segment
+                            if (b[z][j][k] == o) { /// enemy piece. not possible to win for this segment
+                                how_many == -1;
+                                break;
                             }
-                            heur += 100;
+                            else if (b[z][j][k] == g) ++how_many;
                         }
-                    }
-                }
-            }
-
-            /// reset space used for opponent's squares
-            IIIinarows = 0;
-            for (int i = 0; i < 4; ++i) {
-                for (int j = 0; j < 4; ++j) {
-                    for (int k = 0; k < 4; ++k) {
-                        space_used[i][j][k] = 0;
-                    }
-                }
-            }
-
-            /// do the same exact thing
-            /// check for in a rows for them horizontally
-            for (int j = 0; j < 4; ++j) { /// height
-                for (int k = 0; k < 4; ++k) { /// depth
-                    int how_many = 0;
-                    for (int z = 0; z < 4; ++z) { /// count how many squares we have in this horizontal segment
-                        if (b[z][j][k] == 1) { /// enemy piece. not possible to win for this segment
-                            how_many == -1;
-                            break;
-                        }
-                        else if (b[z][j][k] == -1) ++how_many;
-                    }
-                    if (how_many == -1) continue;
-                    for (int z = 0; z < 4; ++z) { /// update space_used
-                        if (space_used[z][j][k] < how_many) {
-                            space_used[z][j][k] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// check vertical segments
-            for (int j = 0; j < 4; ++j) { /// width
-                for (int k = 0; k < 4; ++k) { /// depth
-                    int how_many = 0;
-                    for (int z = 0; z < 4; ++z) { /// count how many squares we have in this vertical segment
-                        if (b[j][z][k] == 1) { /// enemy piece. not possible to win for this segment
-                            how_many == -1;
-                            break;
-                        }
-                        else if (b[j][z][k] == -1) ++how_many;
-                    }
-                    if (how_many == -1) continue;
-                    for (int z = 0; z < 4; ++z) { /// update space_used
-                        if (space_used[j][z][k] < how_many) {
-                            space_used[j][z][k] = how_many;
-                        }
-                    }
-                }
-            }
-
-
-            /// check z-axis segments
-            for (int j = 0; j < 4; ++j) { /// width
-                for (int k = 0; k < 4; ++k) { /// height
-                    int how_many = 0;
-                    for (int z = 0; z < 4; ++z) { /// count how many squares we have in this segment
-                        if (b[j][k][z] == 1) { /// enemy piece. not possible to win for this segment
-                            how_many == -1;
-                            break;
-                        }
-                        else if (b[j][k][z] == -1) ++how_many;
-                    }
-                    if (how_many == -1) continue;
-                    for (int z = 0; z < 4; ++z) { /// update space_used
-                        if (space_used[j][k][z] < how_many) {
-                            space_used[j][k][z] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// check diagonal segments
-
-            /// x-y diagonals
-            for (int i = 0; i < 4; ++i) { /// vary depth
-                int how_many = 0;
-                for (int j = 0; j < 4; ++j) { /// forward diagonal
-                    if (b[j][j][i] == 1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[j][j][i] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[j][j][i] < how_many) {
-                            space_used[j][j][i] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int j = 0; j < 4; ++j) { /// backward diagonal
-                    if (b[j][3 - j][i] == 1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[j][3 - j][i] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[j][3 - j][i] < how_many) {
-                            space_used[j][3 - j][i] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// y-z diagonals
-            for (int i = 0; i < 4; ++i) { /// vary width
-                int how_many = 0;
-                for (int j = 0; j < 4; ++j) { /// forward diagonal
-                    if (b[i][j][j] == 1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[i][j][j] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[i][j][j] < how_many) {
-                            space_used[i][j][j] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int j = 0; j < 4; ++j) { /// backward diagonal
-                    if (b[i][3 - j][j] == 1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[i][3 - j][j] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[i][3 - j][j] < how_many) {
-                            space_used[i][3 - j][j] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// x-z diagonals
-            for (int i = 0; i < 4; ++i) { /// vary height
-                int how_many = 0;
-                for (int j = 0; j < 4; ++j) { /// forward diagonal
-                    if (b[j][i][j] == 1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[j][i][j] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[j][i][j] < how_many) {
-                            space_used[j][i][j] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int j = 0; j < 4; ++j) { /// backward diagonal
-                    if (b[3 - j][i][j] == 1) {
-                        how_many == -1;
-                        break;
-                    }
-                    else if (b[3 - j][i][j] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int j = 0; j < 4; ++j) {
-                        if (space_used[3 - j][i][j] < how_many) {
-                            space_used[3 - j][i][j] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// 4 x-y-z diagonals
-            for (int test = 0; test < 1; ++test) { /// I don't want how_many to be global in method
-                int how_many = 0;
-                for (int i = 0; i < 4; ++i) {
-                    if (b[i][i][i] == 1) {
-                        how_many = -1;
-                        break;
-                    }
-                    else if (b[i][i][i] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (space_used[i][i][i] < how_many) {
-                            space_used[i][i][i] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int i = 0; i < 4; ++i) {
-                    if (b[3 - i][3 - i][i] == 1) {
-                        how_many = -1;
-                        break;
-                    }
-                    else if (b[3 - i][3 - i][i] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (space_used[3 - i][3 - i][i] < how_many) {
-                            space_used[3 - i][3 - i][i] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int i = 0; i < 4; ++i) {
-                    if (b[3 - i][i][i] == 1) {
-                        how_many = -1;
-                        break;
-                    }
-                    else if (b[3 - i][i][i] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (space_used[3 - i][i][i] < how_many) {
-                            space_used[3 - i][i][i] = how_many;
-                        }
-                    }
-                }
-
-                how_many = 0;
-
-                for (int i = 0; i < 4; ++i) {
-                    if (b[i][3 - i][i] == 1) {
-                        how_many = -1;
-                        break;
-                    }
-                    else if (b[i][3 - i][i] == -1) ++how_many;
-                }
-                if (how_many != -1) {
-                    for (int i = 0; i < 4; ++i) {
-                        if (space_used[i][3 - i][i] < how_many) {
-                            space_used[i][3 - i][i] = how_many;
-                        }
-                    }
-                }
-            }
-
-            /// add up everything to heuristic
-            for (int i = 0; i < 4; ++i) {
-                for (int j = 0; j < 4; ++j) {
-                    for (int k = 0; k < 4; ++k) {
-                        if (space_used[i][j][k] == 1) {
-                            heur -= 1;
-                        }
-                        else if (space_used[i][j][k] == 2) {
-                            heur -= 10;
-                        }
-                        else if (space_used[i][j][k] == 3) {
-                            ++IIIinarows;
-                            if (IIIinarows > 1 || player == 0) { /// They have a fork, or it's their turn
-                                return INT_MIN;
+                        if (how_many == -1) continue;
+                        for (int z = 0; z < 4; ++z) { /// update space_used
+                            if (space_used[z][j][k] < how_many) {
+                                space_used[z][j][k] = how_many;
                             }
-                            heur -= 100;
+                        }
+                    }
+                }
+
+                /// check vertical segments
+                for (int j = 0; j < 4; ++j) { /// width
+                    for (int k = 0; k < 4; ++k) { /// depth
+                        int how_many = 0;
+                        for (int z = 0; z < 4; ++z) { /// count how many squares we have in this vertical segment
+                            if (b[j][z][k] == o) { /// enemy piece. not possible to win for this segment
+                                how_many == -1;
+                                break;
+                            }
+                            else if (b[j][z][k] == g) ++how_many;
+                        }
+                        if (how_many == -1) continue;
+                        for (int z = 0; z < 4; ++z) { /// update space_used
+                            if (space_used[j][z][k] < how_many) {
+                                space_used[j][z][k] = how_many;
+                            }
+                        }
+                    }
+                }
+
+
+                /// check z-axis segments
+                for (int j = 0; j < 4; ++j) { /// width
+                    for (int k = 0; k < 4; ++k) { /// height
+                        int how_many = 0;
+                        for (int z = 0; z < 4; ++z) { /// count how many squares we have in this segment
+                            if (b[j][k][z] == o) { /// enemy piece. not possible to win for this segment
+                                how_many == -1;
+                                break;
+                            }
+                            else if (b[j][k][z] == g) ++how_many;
+                        }
+                        if (how_many == -1) continue;
+                        for (int z = 0; z < 4; ++z) { /// update space_used
+                            if (space_used[j][k][z] < how_many) {
+                                space_used[j][k][z] = how_many;
+                            }
+                        }
+                    }
+                }
+
+                /// check diagonal segments
+
+                /// x-y diagonals
+                for (int i = 0; i < 4; ++i) { /// vary depth
+                    int how_many = 0;
+                    for (int j = 0; j < 4; ++j) { /// forward diagonal
+                        if (b[j][j][i] == o) {
+                            how_many == -1;
+                            break;
+                        }
+                        else if (b[j][j][i] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int j = 0; j < 4; ++j) {
+                            if (space_used[j][j][i] < how_many) {
+                                space_used[j][j][i] = how_many;
+                            }
+                        }
+                    }
+
+                    how_many = 0;
+
+                    for (int j = 0; j < 4; ++j) { /// backward diagonal
+                        if (b[j][3 - j][i] == o) {
+                            how_many == -1;
+                            break;
+                        }
+                        else if (b[j][3 - j][i] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int j = 0; j < 4; ++j) {
+                            if (space_used[j][3 - j][i] < how_many) {
+                                space_used[j][3 - j][i] = how_many;
+                            }
+                        }
+                    }
+                }
+
+                /// y-z diagonals
+                for (int i = 0; i < 4; ++i) { /// vary width
+                    int how_many = 0;
+                    for (int j = 0; j < 4; ++j) { /// forward diagonal
+                        if (b[i][j][j] == o) {
+                            how_many == -1;
+                            break;
+                        }
+                        else if (b[i][j][j] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int j = 0; j < 4; ++j) {
+                            if (space_used[i][j][j] < how_many) {
+                                space_used[i][j][j] = how_many;
+                            }
+                        }
+                    }
+
+                    how_many = 0;
+
+                    for (int j = 0; j < 4; ++j) { /// backward diagonal
+                        if (b[i][3 - j][j] == o) {
+                            how_many == -1;
+                            break;
+                        }
+                        else if (b[i][3 - j][j] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int j = 0; j < 4; ++j) {
+                            if (space_used[i][3 - j][j] < how_many) {
+                                space_used[i][3 - j][j] = how_many;
+                            }
+                        }
+                    }
+                }
+
+                /// x-z diagonals
+                for (int i = 0; i < 4; ++i) { /// vary height
+                    int how_many = 0;
+                    for (int j = 0; j < 4; ++j) { /// forward diagonal
+                        if (b[j][i][j] == o) {
+                            how_many == -1;
+                            break;
+                        }
+                        else if (b[j][i][j] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int j = 0; j < 4; ++j) {
+                            if (space_used[j][i][j] < how_many) {
+                                space_used[j][i][j] = how_many;
+                            }
+                        }
+                    }
+
+                    how_many = 0;
+
+                    for (int j = 0; j < 4; ++j) { /// backward diagonal
+                        if (b[3 - j][i][j] == o) {
+                            how_many == -1;
+                            break;
+                        }
+                        else if (b[3 - j][i][j] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int j = 0; j < 4; ++j) {
+                            if (space_used[3 - j][i][j] < how_many) {
+                                space_used[3 - j][i][j] = how_many;
+                            }
+                        }
+                    }
+                }
+
+                /// 4 x-y-z diagonals
+                for (int test = 0; test < 1; ++test) { /// I don't want how_many to be global in method
+                    int how_many = 0;
+                    for (int i = 0; i < 4; ++i) {
+                        if (b[i][i][i] == o) {
+                            how_many = -1;
+                            break;
+                        }
+                        else if (b[i][i][i] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int i = 0; i < 4; ++i) {
+                            if (space_used[i][i][i] < how_many) {
+                                space_used[i][i][i] = how_many;
+                            }
+                        }
+                    }
+
+                    how_many = 0;
+
+                    for (int i = 0; i < 4; ++i) {
+                        if (b[3 - i][3 - i][i] == o) {
+                            how_many = -1;
+                            break;
+                        }
+                        else if (b[3 - i][3 - i][i] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int i = 0; i < 4; ++i) {
+                            if (space_used[3 - i][3 - i][i] < how_many) {
+                                space_used[3 - i][3 - i][i] = how_many;
+                            }
+                        }
+                    }
+
+                    how_many = 0;
+
+                    for (int i = 0; i < 4; ++i) {
+                        if (b[3 - i][i][i] == o) {
+                            how_many = -1;
+                            break;
+                        }
+                        else if (b[3 - i][i][i] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int i = 0; i < 4; ++i) {
+                            if (space_used[3 - i][i][i] < how_many) {
+                                space_used[3 - i][i][i] = how_many;
+                            }
+                        }
+                    }
+
+                    how_many = 0;
+
+                    for (int i = 0; i < 4; ++i) {
+                        if (b[i][3 - i][i] == o) {
+                            how_many = -1;
+                            break;
+                        }
+                        else if (b[i][3 - i][i] == g) ++how_many;
+                    }
+                    if (how_many != -1) {
+                        for (int i = 0; i < 4; ++i) {
+                            if (space_used[i][3 - i][i] < how_many) {
+                                space_used[i][3 - i][i] = how_many;
+                            }
+                        }
+                    }
+                }
+
+                /// add up everything to heuristic, and check for wins
+                for (int i = 0; i < 4; ++i) {
+                    for (int j = 0; j < 4; ++j) {
+                        for (int k = 0; k < 4; ++k) {
+                            if (space_used[i][j][k] == 1) {
+                                heur += g * 1;
+                            }
+                            else if (space_used[i][j][k] == 2) {
+                                heur += g * 10;
+                            }
+                            else if (space_used[i][j][k] == 3) {
+                                ++IIIinarows;
+                                if (IIIinarows > 1) { /// we have a fork, or it's our turn
+                                    if(g == 1) return INT_MAX;
+                                    if(g == -1) return INT_MIN;
+                                }
+                                heur += g * 100;
+                            }
                         }
                     }
                 }
