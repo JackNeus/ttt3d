@@ -12,7 +12,7 @@ using namespace std;
 */
 
 class TeamX : public TTT3D {
-public:  
+public:
     struct Node;
     typedef vector<Node> vN;
 
@@ -45,7 +45,72 @@ public:
             return true;
         }
         int heuristic(){
-            return 0;
+            int heur = 0;
+            int space_used[4][4][4]; /// is an empty space valuable, and is it a part of a 1, 2, or 3 in a row
+            for (int i = 0; i < 4; ++i) {
+                for (int j = 0; j < 4; ++j) {
+                    for (int k = 0; k < 4; ++k) {
+                        space_used[i][j][k] = 0;
+                    }
+                }
+            }
+
+            /// check for in a rows for us horizontally
+            for (int j = 0; j < 4; ++j) { /// height
+                for (int k = 0; k < 4; ++k) { /// depth
+                    int how_many = 0;
+                    for (int z = 0; z < 4; ++z) { /// count how many squares we have in this horizontal segment
+                        if (grid[z][j][k] == -1) { /// enemy piece. not possible to win for this segment
+                            how_many == -1;
+                            break;
+                        }
+                        else if (grid[z][j][k] == 1) ++how_many;
+                    }
+                    if (how_many == -1) continue;
+                    for (int z = 0; z < 4; ++z) { /// update space_used
+                        if (space_used[i] < how_many) {
+                            space_used[i] = how_many;
+                        }
+                    }
+                }
+            }
+
+            /// check vertical segments
+            //
+            //
+            //
+            /// check z-axis segments
+
+            /// check diagonal segments
+
+            /// add up everything to heuristic
+            for (int i = 0; i < 4; ++i) {
+                for (int j = 0; j < 4; ++j) {
+                    for (int k = 0; k < 4; ++k) {
+                        if (space_used[i][j][k] == 1) {
+                            heur += 1;
+                        }
+                        else if (space_used[i][j][k] == 2) {
+                            heur += 10;
+                        }
+                        else if (space_used[i][j][k] == 3) {
+                            heur += 100;
+                        }
+                    }
+                }
+            }
+
+            /// reset space used for opponent's squares
+            for (int i = 0; i < 4; ++i) {
+                for (int j = 0; j < 4; ++j) {
+                    for (int k = 0; k < 4; ++k) {
+                        space_used[i][j][k] = 0;
+                    }
+                }
+            }
+
+            return hstc;
+
         }
         vector<Node> children(){
             vector<Node> childs;
@@ -64,7 +129,7 @@ public:
                         childs.push_back(n);
                     }
                 }
-            }    
+            }
             return childs;
         }
         void printBoard(){
