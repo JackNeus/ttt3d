@@ -55,7 +55,7 @@ public:
                     for (int j = 0; j < 4; ++j) {
                         for (int k = 0; k < 4; ++k) {
                             space_used[i][j][k] = 0;
-                            if (b[i][j][k] != 0) space_used[i][j][k] == 4; /// we don't want to count already used spaces
+                            if (b[i][j][k] != 0) space_used[i][j][k] = 4; /// we don't want to count already used spaces
                         }
                     }
                 }
@@ -314,7 +314,7 @@ public:
                             }
                             else if (space_used[i][j][k] == 3) {
                                 ++IIIinarows;
-                                if (IIIinarows > 1) { /// we have a fork, or it's our turn
+                                if (IIIinarows > 1 || ((g == 1 &&  player == 1) || (g == -1 && player == 0)) ) { /// we have a fork, or it's our turn
                                     if(g == 1) return INT_MAX;
                                     if(g == -1) return INT_MIN;
                                 }
