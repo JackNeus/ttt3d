@@ -1,4 +1,6 @@
 #include "TeamX.h"
+#include <iostream>
+using namespace std;
 
 int main() {
     auto length = minutes(3);
