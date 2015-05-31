@@ -50,7 +50,7 @@ public:
             return true;
         }
 
-        int heuristic(int player){ /// player 1 for us, 0 for them
+        int heuristic(int player){ /// player 1 for us, -1 for them
             int heur = 0;
 
             for(int g = -1; g <= 1; g += 2){
@@ -78,7 +78,7 @@ public:
                             else if (b[z][j][k] == g) ++how_many;
                         }
                         if (how_many == -1) continue;
-                        if (how_many == 4) return (g == -1 ? INT_MIN: INT_MAX;
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[z][j][k] < how_many) {
                                 space_used[z][j][k] = how_many;
@@ -99,7 +99,7 @@ public:
                             else if (b[j][z][k] == g) ++how_many;
                         }
                         if (how_many == -1) continue;
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[j][z][k] < how_many) {
                                 space_used[j][z][k] = how_many;
@@ -121,7 +121,7 @@ public:
                             else if (b[j][k][z] == g) ++how_many;
                         }
                         if (how_many == -1) continue;
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[j][k][z] < how_many) {
                                 space_used[j][k][z] = how_many;
@@ -143,7 +143,7 @@ public:
                         else if (b[j][j][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][j][i] < how_many) {
                                 space_used[j][j][i] = how_many;
@@ -161,7 +161,7 @@ public:
                         else if (b[j][3 - j][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][3 - j][i] < how_many) {
                                 space_used[j][3 - j][i] = how_many;
@@ -181,7 +181,7 @@ public:
                         else if (b[i][j][j] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[i][j][j] < how_many) {
                                 space_used[i][j][j] = how_many;
@@ -199,7 +199,7 @@ public:
                         else if (b[i][3 - j][j] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[i][3 - j][j] < how_many) {
                                 space_used[i][3 - j][j] = how_many;
@@ -219,7 +219,7 @@ public:
                         else if (b[j][i][j] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][i][j] < how_many) {
                                 space_used[j][i][j] = how_many;
@@ -237,7 +237,7 @@ public:
                         else if (b[3 - j][i][j] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[3 - j][i][j] < how_many) {
                                 space_used[3 - j][i][j] = how_many;
@@ -257,7 +257,7 @@ public:
                         else if (b[i][i][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[i][i][i] < how_many) {
                                 space_used[i][i][i] = how_many;
@@ -275,7 +275,7 @@ public:
                         else if (b[3 - i][3 - i][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[3 - i][3 - i][i] < how_many) {
                                 space_used[3 - i][3 - i][i] = how_many;
@@ -293,7 +293,7 @@ public:
                         else if (b[3 - i][i][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[3 - i][i][i] < how_many) {
                                 space_used[3 - i][i][i] = how_many;
@@ -311,7 +311,7 @@ public:
                         else if (b[i][3 - i][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
-                        if (how_many == 4) return (g == -1 ? INT_MIN : INT_MAX);
+                        if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[i][3 - i][i] < how_many) {
                                 space_used[i][3 - i][i] = how_many;
@@ -321,24 +321,25 @@ public:
                 }
 
                 /// add up everything to heuristic, and check for wins
+                int posneg = (g == player ? 1 : -1);
                 for (int i = 0; i < 4; ++i) {
                     for (int j = 0; j < 4; ++j) {
                         for (int k = 0; k < 4; ++k) {
                             if (space_used[i][j][k] == 1) {
-                                heur += g * 1;
+                                heur += posneg * 1;
                             }
                             else if (space_used[i][j][k] == 2) {
-                                heur += g * 10;
+                                heur += posneg * 10;
                             }
                             else if (space_used[i][j][k] == 3) {
                                 ++IIIinarows;
                                 if (IIIinarows > 1 || ((g == 1 &&  player == 1) || (g == -1 && player == 0)) ) { /// we have a fork, or it's our turn
-                                    if(g == 1) {
+                                    if(g == player) {
                                         return INT_MAX;
                                     }
-                                    if(g == -1) return INT_MIN;
+                                    else return INT_MIN;
                                 }
-                                heur += g * 100;
+                                heur += posneg * 100;
                             }
                         }
                     }
@@ -385,8 +386,47 @@ public:
 
     Node currentState;
 
-    int alphabeta(Node n, int depth, int alpha, int beta, bool player, bool root) {
+    int alphabeta(Node n, int depth, int alpha, int beta, int player, bool root) {
         if (depth == 0 || n.isTerminal()) {
+            return n.heuristic(!player);
+        }
+
+        if (player == 1) { /// MAXIMIZING PLAYER
+            int v = INT_MIN;
+            vN children = n.children();
+            Node nextMove;
+            for (int i = 0; i < children.size(); ++i) {
+                int t = alphabeta(children[i], depth - 1, alpha, beta, -1, false);
+                if(t > v){
+                    v = t;
+                    nextMove = children[i];
+                }
+                alpha = max(alpha, v);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+            return v;
+        }
+        else { /// MINIMIZER
+            int v = INT_MAX;
+            vN children = n.children();
+            Node nextMove;
+            for (int i = 0; i < children.size(); ++i) {
+                int t = alphabeta(children[i], depth - 1, alpha, beta, 1, false);
+                if(t < v){
+                    v = t;
+                    nextMove = children[i];
+                }
+                beta = min(beta, v);
+                if (beta <= alpha) {
+                    break;
+                }
+            }
+            return v;
+        }
+
+        /*if (depth == 0 || n.isTerminal()) {
             int t = n.heuristic(!player);
             if(root) currentState = n;
             return t;
@@ -406,7 +446,7 @@ public:
             }
         }
         if(root) currentState = nextMove;
-        return v;
+        return v; */
     }
 
 };
