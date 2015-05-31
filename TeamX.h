@@ -21,15 +21,23 @@ public:
         currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
         currentState.printBoard();
         cout << currentState.heuristic(0) << endl;
-        //cout << currentState.heuristic(1) << endl;
+        cout << currentState.heuristic(1) << endl;
     }
 
     void next_move(int mv[]) {
-        currentState.b[mv[0]][mv[1]][mv[2]] = -1;
+        if(mv[0] != -1) currentState.b[mv[0]][mv[1]][mv[2]] = -1;
         alphabeta(currentState, 64, INT_MIN, INT_MAX, 0, 1);
         mv[0] = currentState.lastMove[0];
         mv[1] = currentState.lastMove[1];
         mv[2] = currentState.lastMove[2];
+    }
+
+    void print(){
+        currentState.printBoard();
+    }
+
+    bool isWin(){
+        return currentState.isTerminal();        
     }
 
     struct Node{
@@ -394,10 +402,10 @@ public:
                                     //}
                                     //else return INT_MIN;
                                 //}
-                                heur += posneg * 100;
+                                heur += posneg * 1000;
                             }
                             else if (space_used[i][j][k] == 4) {
-                                heur += posneg * 1000;
+                                heur += posneg * 100000;
                             }
                         }
                     }
