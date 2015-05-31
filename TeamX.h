@@ -38,6 +38,9 @@ public:
         Node(){
             b = grid(4, vii(4, vi(4, 0)));
             lastMove = vi(3, -1);
+            b[0][0][0] = 1;
+            b[2][0][2] = -1;
+            cout << "calling " << heuristic(0) << endl;
         }
         Node(grid g, vi last): b(g), lastMove(last) {}
 
@@ -48,7 +51,7 @@ public:
         int heuristic(int player){ /// player 1 for us, 0 for them
             int heur = 0;
 
-            for(int g = -1; g <= 1; g += 2){
+            for(int g = 1; g <= 1; g += 2){
                 int IIIinarows = 0;
                 grid space_used(4, vii(4, vi(4, 0))); /// is an empty space valuable, and is it a part of a 1, 2, or 3 in a row
                 for (int i = 0; i < 4; ++i) {
@@ -67,7 +70,9 @@ public:
                         int how_many = 0;
                         for (int z = 0; z < 4; ++z) { /// count how many squares we have in this horizontal segment
                             if (b[z][j][k] == o) { /// enemy piece. not possible to win for this segment
-                                how_many == -1;
+                                how_many = -1;
+                                cout << "FOUND YOU 1" << endl;
+                                if (how_many == 1) cout << "SHH" << endl;
                                 break;
                             }
                             else if (b[z][j][k] == g) ++how_many;
@@ -87,7 +92,9 @@ public:
                         int how_many = 0;
                         for (int z = 0; z < 4; ++z) { /// count how many squares we have in this vertical segment
                             if (b[j][z][k] == o) { /// enemy piece. not possible to win for this segment
-                                how_many == -1;
+                                how_many = -1;
+                                cout << "FOUND YOU 2" << endl;
+                                if (how_many == 1) cout << "SHH" << endl;
                                 break;
                             }
                             else if (b[j][z][k] == g) ++how_many;
@@ -108,7 +115,9 @@ public:
                         int how_many = 0;
                         for (int z = 0; z < 4; ++z) { /// count how many squares we have in this segment
                             if (b[j][k][z] == o) { /// enemy piece. not possible to win for this segment
-                                how_many == -1;
+                                how_many = -1;
+                                cout << "FOUND YOU 3" << endl;
+                                if (how_many == 1) cout << "SHH" << endl;
                                 break;
                             }
                             else if (b[j][k][z] == g) ++how_many;
@@ -129,7 +138,9 @@ public:
                     int how_many = 0;
                     for (int j = 0; j < 4; ++j) { /// forward diagonal
                         if (b[j][j][i] == o) {
-                            how_many == -1;
+                            how_many = -1;
+                            cout << "FOUND YOU 4" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[j][j][i] == g) ++how_many;
@@ -146,7 +157,9 @@ public:
 
                     for (int j = 0; j < 4; ++j) { /// backward diagonal
                         if (b[j][3 - j][i] == o) {
-                            how_many == -1;
+                            how_many = -1;
+                            cout << "FOUND YOU 5" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[j][3 - j][i] == g) ++how_many;
@@ -165,7 +178,9 @@ public:
                     int how_many = 0;
                     for (int j = 0; j < 4; ++j) { /// forward diagonal
                         if (b[i][j][j] == o) {
-                            how_many == -1;
+                            how_many = -1;
+                            cout << "FOUND YOU 6" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[i][j][j] == g) ++how_many;
@@ -182,7 +197,9 @@ public:
 
                     for (int j = 0; j < 4; ++j) { /// backward diagonal
                         if (b[i][3 - j][j] == o) {
-                            how_many == -1;
+                            how_many = -1;
+                            cout << "FOUND YOU 7" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[i][3 - j][j] == g) ++how_many;
@@ -201,7 +218,9 @@ public:
                     int how_many = 0;
                     for (int j = 0; j < 4; ++j) { /// forward diagonal
                         if (b[j][i][j] == o) {
-                            how_many == -1;
+                            how_many = -1;
+                            cout << "FOUND YOU 8" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[j][i][j] == g) ++how_many;
@@ -218,7 +237,9 @@ public:
 
                     for (int j = 0; j < 4; ++j) { /// backward diagonal
                         if (b[3 - j][i][j] == o) {
-                            how_many == -1;
+                            how_many = -1;
+                            cout << "FOUND YOU 9" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[3 - j][i][j] == g) ++how_many;
@@ -238,6 +259,8 @@ public:
                     for (int i = 0; i < 4; ++i) {
                         if (b[i][i][i] == o) {
                             how_many = -1;
+                            cout << "FOUND YOU 10" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[i][i][i] == g) ++how_many;
@@ -255,6 +278,8 @@ public:
                     for (int i = 0; i < 4; ++i) {
                         if (b[3 - i][3 - i][i] == o) {
                             how_many = -1;
+                            cout << "FOUND YOU 11" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[3 - i][3 - i][i] == g) ++how_many;
@@ -272,6 +297,8 @@ public:
                     for (int i = 0; i < 4; ++i) {
                         if (b[3 - i][i][i] == o) {
                             how_many = -1;
+                            cout << "FOUND YOU 12" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[3 - i][i][i] == g) ++how_many;
@@ -289,6 +316,8 @@ public:
                     for (int i = 0; i < 4; ++i) {
                         if (b[i][3 - i][i] == o) {
                             how_many = -1;
+                            cout << "FOUND YOU 13" << endl;
+                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[i][3 - i][i] == g) ++how_many;
@@ -315,7 +344,10 @@ public:
                             else if (space_used[i][j][k] == 3) {
                                 ++IIIinarows;
                                 if (IIIinarows > 1 || ((g == 1 &&  player == 1) || (g == -1 && player == 0)) ) { /// we have a fork, or it's our turn
-                                    if(g == 1) return INT_MAX;
+                                    if(g == 1) {
+                                        cout << "WIN ";
+                                        return INT_MAX;
+                                    }
                                     if(g == -1) return INT_MIN;
                                 }
                                 heur += g * 100;
