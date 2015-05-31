@@ -78,7 +78,7 @@ public:
                             else if (b[z][j][k] == g) ++how_many;
                         }
                         if (how_many == -1) continue;
-                        if (how_many == 4) return INT_MAX * g;
+                        if (how_many == 4) return (g == -1 ? INT_MIN: INT_MAX;
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[z][j][k] < how_many) {
                                 space_used[z][j][k] = how_many;
