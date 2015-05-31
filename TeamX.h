@@ -20,14 +20,16 @@ public:
         currentState = Node();
         currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
         currentState.printBoard();
-        vN c = currentState.children();
         cout << currentState.heuristic(0) << endl;
         cout << currentState.heuristic(1) << endl;
     }
 
     void next_move(int mv[]) {
         currentState.b[mv[0]][mv[1]][mv[2]] = -1;
-
+        alphabeta(currentState, 64, INT_MIN, INT_MAX, 0, 1);
+        mv[0] = currentState.lastMove[0];
+        mv[1] = currentState.lastMove[1];
+        mv[2] = currentState.lastMove[2];
     }
 
     struct Node{
@@ -370,19 +372,27 @@ public:
 
     Node currentState;
 
-    int alphabeta(Node n, int depth, int alpha, int beta, bool player) {
+    int alphabeta(Node n, int depth, int alpha, int beta, bool player, bool root) {
         if (depth == 0 || n.isTerminal()) {
-            return n.heuristic(player);
+            int t = n.heuristic(!player);
+            if(root) currentState = n;
+            return t;
         }
         vN children = n.children();
         int v = INT_MIN;
+        Node nextMove;
         for (int i = 0; i < children.size(); ++i) {
-            v = max(v, alphabeta(children[i], depth - 1, alpha, beta, false));
+            int t = alphabeta(children[i], depth - 1, alpha, beta, false, false);
+            if(t > v){
+                v = t;
+                nextMove = children[i];
+            }
             int a = max(alpha, v);
             if (beta <= alpha) {
                 break;
             }
         }
+        if(root) currentState = nextMove;
         return v;
     }
 
