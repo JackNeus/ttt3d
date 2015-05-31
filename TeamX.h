@@ -21,7 +21,7 @@ public:
         currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
         currentState.printBoard();
         cout << currentState.heuristic(0) << endl;
-        cout << currentState.heuristic(1) << endl;
+        //cout << currentState.heuristic(1) << endl;
     }
 
     void next_move(int mv[]) {
