@@ -16,7 +16,7 @@ int main() {
     while(!player.isWin()){
     	player.print();
     	cout << "Enter move (x, y, z): ";
-    	cin >> moves[1] >> moves[2] >> moves[0];
+    	cin >> moves[0] >> moves[1] >> moves[2];
     	player.next_move(moves);
     }
 }
