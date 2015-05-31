@@ -30,7 +30,7 @@ public:
         if(mv[0] != -1) currentState.b[mv[0]][mv[1]][mv[2]] = -1;
         currentState.printBoard();
         cout << "Alphabeta-ing...\n";
-        alphabeta(currentState, 3, INT_MIN, INT_MAX, 0, 1);
+        alphabeta(currentState, 1, INT_MIN, INT_MAX, 0, 1);
         mv[0] = currentState.lastMove[0];
         mv[1] = currentState.lastMove[1];
         mv[2] = currentState.lastMove[2];
@@ -113,6 +113,14 @@ public:
             for(int i = 0; i < 4; i++){
                 int t = 0;
                 for(int j = 0; j < 4; j++){
+                    t += b[i][j][3 - j];
+                }
+                if(t == 4) return 1;
+                if(t == -4) return -1;
+            }
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
                     t += b[j][i][j];
                 }
                 if(t == 4) return 1;
@@ -129,7 +137,23 @@ public:
             for(int i = 0; i < 4; i++){
                 int t = 0;
                 for(int j = 0; j < 4; j++){
+                    t += b[3 - j][i][j];
+                }
+                if(t == 4) return 1;
+                if(t == -4) return -1;
+            }
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
                     t += b[j][j][i];
+                }
+                if(t == 4) return 1;
+                if(t == -4) return -1;
+            }
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
+                    t += b[3 - j][j][i];
                 }
                 if(t == 4) return 1;
                 if(t == -4) return -1;
@@ -151,6 +175,18 @@ public:
             t = 0;
             for(int i = 0; i < 4; i++){
                 t += b[i][i][3 - i];
+            }
+            if(t == 4) return 1;
+            if(t == -4) return -1;
+            t = 0;
+            for(int i = 0; i < 4; i++){
+                t += b[i][3 - i][i];
+            }
+            if(t == 4) return 1;
+            if(t == -4) return -1;
+            t = 0;
+            for(int i = 0; i < 4; i++){
+                t += b[3 - i][i][i];
             }
             if(t == 4) return 1;
             if(t == -4) return -1;
@@ -505,6 +541,7 @@ public:
                 }
                 cout << "\n";
             }
+            cout << "\n";
         }
     };
 
