@@ -476,7 +476,7 @@ public:
                     break;
                 }
             }
-            if(root) currentState = n;
+            if(root) currentState = nextMove;
             return v;
         }
         else { /// MINIMIZER
@@ -494,7 +494,7 @@ public:
                     break;
                 }
             }
-            if(root) currentState = n;
+            if(root) currentState = nextMove;
             return v;
         }
 
