@@ -18,12 +18,15 @@ public:
 
     explicit TeamX(const duration<double> tta) : TTT3D(tta) {
         currentState = Node();
+        currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
         currentState.printBoard();
         vN c = currentState.children();
-
+        cout << currentState.heuristic(0) << endl;
+        cout << currentState.heuristic(1) << endl;
     }
 
     void next_move(int mv[]) {
+        currentState.b[mv[0]][mv[1]][mv[2]] = -1;
 
     }
 
@@ -38,9 +41,6 @@ public:
         Node(){
             b = grid(4, vii(4, vi(4, 0)));
             lastMove = vi(3, -1);
-            b[0][0][0] = 1;
-            b[2][0][2] = -1;
-            cout << "calling " << heuristic(0) << endl;
         }
         Node(grid g, vi last): b(g), lastMove(last) {}
 
@@ -71,8 +71,6 @@ public:
                         for (int z = 0; z < 4; ++z) { /// count how many squares we have in this horizontal segment
                             if (b[z][j][k] == o) { /// enemy piece. not possible to win for this segment
                                 how_many = -1;
-                                cout << "FOUND YOU 1" << endl;
-                                if (how_many == 1) cout << "SHH" << endl;
                                 break;
                             }
                             else if (b[z][j][k] == g) ++how_many;
@@ -93,8 +91,6 @@ public:
                         for (int z = 0; z < 4; ++z) { /// count how many squares we have in this vertical segment
                             if (b[j][z][k] == o) { /// enemy piece. not possible to win for this segment
                                 how_many = -1;
-                                cout << "FOUND YOU 2" << endl;
-                                if (how_many == 1) cout << "SHH" << endl;
                                 break;
                             }
                             else if (b[j][z][k] == g) ++how_many;
@@ -116,8 +112,6 @@ public:
                         for (int z = 0; z < 4; ++z) { /// count how many squares we have in this segment
                             if (b[j][k][z] == o) { /// enemy piece. not possible to win for this segment
                                 how_many = -1;
-                                cout << "FOUND YOU 3" << endl;
-                                if (how_many == 1) cout << "SHH" << endl;
                                 break;
                             }
                             else if (b[j][k][z] == g) ++how_many;
@@ -139,8 +133,6 @@ public:
                     for (int j = 0; j < 4; ++j) { /// forward diagonal
                         if (b[j][j][i] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 4" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[j][j][i] == g) ++how_many;
@@ -158,8 +150,6 @@ public:
                     for (int j = 0; j < 4; ++j) { /// backward diagonal
                         if (b[j][3 - j][i] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 5" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[j][3 - j][i] == g) ++how_many;
@@ -179,8 +169,6 @@ public:
                     for (int j = 0; j < 4; ++j) { /// forward diagonal
                         if (b[i][j][j] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 6" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[i][j][j] == g) ++how_many;
@@ -198,8 +186,6 @@ public:
                     for (int j = 0; j < 4; ++j) { /// backward diagonal
                         if (b[i][3 - j][j] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 7" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[i][3 - j][j] == g) ++how_many;
@@ -219,8 +205,6 @@ public:
                     for (int j = 0; j < 4; ++j) { /// forward diagonal
                         if (b[j][i][j] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 8" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[j][i][j] == g) ++how_many;
@@ -238,8 +222,6 @@ public:
                     for (int j = 0; j < 4; ++j) { /// backward diagonal
                         if (b[3 - j][i][j] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 9" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[3 - j][i][j] == g) ++how_many;
@@ -259,8 +241,6 @@ public:
                     for (int i = 0; i < 4; ++i) {
                         if (b[i][i][i] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 10" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[i][i][i] == g) ++how_many;
@@ -278,8 +258,6 @@ public:
                     for (int i = 0; i < 4; ++i) {
                         if (b[3 - i][3 - i][i] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 11" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[3 - i][3 - i][i] == g) ++how_many;
@@ -297,8 +275,6 @@ public:
                     for (int i = 0; i < 4; ++i) {
                         if (b[3 - i][i][i] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 12" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[3 - i][i][i] == g) ++how_many;
@@ -316,8 +292,6 @@ public:
                     for (int i = 0; i < 4; ++i) {
                         if (b[i][3 - i][i] == o) {
                             how_many = -1;
-                            cout << "FOUND YOU 13" << endl;
-                            if (how_many == 1) cout << "SHH" << endl;
                             break;
                         }
                         else if (b[i][3 - i][i] == g) ++how_many;
@@ -345,7 +319,6 @@ public:
                                 ++IIIinarows;
                                 if (IIIinarows > 1 || ((g == 1 &&  player == 1) || (g == -1 && player == 0)) ) { /// we have a fork, or it's our turn
                                     if(g == 1) {
-                                        cout << "WIN ";
                                         return INT_MAX;
                                     }
                                     if(g == -1) return INT_MIN;
@@ -397,33 +370,20 @@ public:
 
     Node currentState;
 
-    int alphabeta(Node n, int depth, int alpha, int beta, bool maximizingPlayer) {
+    int alphabeta(Node n, int depth, int alpha, int beta, bool player) {
         if (depth == 0 || n.isTerminal()) {
-            return n.heuristic(maximizingPlayer);
+            return n.heuristic(player);
         }
         vN children = n.children();
-        if (maximizingPlayer) {
-            int v = INT_MIN;
-            for (int i = 0; i < children.size(); ++i) {
-                v = max(v, alphabeta(children[i], depth - 1, alpha, beta, false));
-                int a = max(alpha, v);
-                if (beta <= alpha) {
-                    break;
-                }
+        int v = INT_MIN;
+        for (int i = 0; i < children.size(); ++i) {
+            v = max(v, alphabeta(children[i], depth - 1, alpha, beta, false));
+            int a = max(alpha, v);
+            if (beta <= alpha) {
+                break;
             }
-            return v;
         }
-        else {
-            int v = INT_MAX;
-            for (int i = 0; i < children.size(); ++i) {
-                v = min(v, alphabeta(children[i], depth - 1, alpha, beta, true));
-                beta = min(beta, v);
-                if (beta <= alpha) {
-                    break;
-                }
-            }
-            return v;
-        }
+        return v;
     }
 
 };
