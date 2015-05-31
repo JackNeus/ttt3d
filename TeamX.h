@@ -47,7 +47,62 @@ public:
         Node(grid g, vi last): b(g), lastMove(last) {}
 
         bool isTerminal(){
-            return true;
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int k = 0; k < 4; k++){
+                    t += b[i][0][k];
+                }
+                if(t == 4 || t == -4) return true;
+            }
+
+            for(int j = 0; j < 4; j++){
+                int t = 0;
+                for(int k = 0; k < 4; k++){
+                    t += b[0][j][k];
+                }
+                if(t == 4 || t == -4) return true;
+            }
+
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
+                    t += b[i][j][0];
+                }
+                if(t == 4 || t == -4) return true;
+            }
+
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
+                    t += b[i][j][j];
+                }
+                if(t == 4 || t == -4) return true;
+            }
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
+                    t += b[j][i][j];
+                }
+                if(t == 4 || t == -4) return true;
+            }
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
+                    t += b[j][j][i];
+                }
+                if(t == 4 || t == -4) return true;
+            }
+            int t = 0;
+            for(int i = 0; i < 4; i++){
+                t += b[i][i][i];
+            }
+            if(t == 4 || t == -4) return true;
+            t = 0;
+            for(int i = 0; i < 4; i++){
+                t += b[i][3 - i][i];
+            }
+            if(t == 4 || t == -4) return true;
+            return false;
         }
 
         int heuristic(int player){ /// player 1 for us, -1 for them
