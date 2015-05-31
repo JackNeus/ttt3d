@@ -53,7 +53,7 @@ public:
         int heuristic(int player){ /// player 1 for us, 0 for them
             int heur = 0;
 
-            for(int g = 1; g <= 1; g += 2){
+            for(int g = -1; g <= 1; g += 2){
                 int IIIinarows = 0;
                 grid space_used(4, vii(4, vi(4, 0))); /// is an empty space valuable, and is it a part of a 1, 2, or 3 in a row
                 for (int i = 0; i < 4; ++i) {
@@ -78,6 +78,7 @@ public:
                             else if (b[z][j][k] == g) ++how_many;
                         }
                         if (how_many == -1) continue;
+                        if (how_many == 4) return INT_MAX * g;
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[z][j][k] < how_many) {
                                 space_used[z][j][k] = how_many;
@@ -98,6 +99,7 @@ public:
                             else if (b[j][z][k] == g) ++how_many;
                         }
                         if (how_many == -1) continue;
+                        if (how_many == 4) return INT_MAX * g;
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[j][z][k] < how_many) {
                                 space_used[j][z][k] = how_many;
@@ -119,6 +121,7 @@ public:
                             else if (b[j][k][z] == g) ++how_many;
                         }
                         if (how_many == -1) continue;
+                        if (how_many == 4) return INT_MAX * g;
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[j][k][z] < how_many) {
                                 space_used[j][k][z] = how_many;
@@ -140,6 +143,7 @@ public:
                         else if (b[j][j][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][j][i] < how_many) {
                                 space_used[j][j][i] = how_many;
@@ -157,6 +161,7 @@ public:
                         else if (b[j][3 - j][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][3 - j][i] < how_many) {
                                 space_used[j][3 - j][i] = how_many;
@@ -176,6 +181,7 @@ public:
                         else if (b[i][j][j] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[i][j][j] < how_many) {
                                 space_used[i][j][j] = how_many;
@@ -193,6 +199,7 @@ public:
                         else if (b[i][3 - j][j] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[i][3 - j][j] < how_many) {
                                 space_used[i][3 - j][j] = how_many;
@@ -212,6 +219,7 @@ public:
                         else if (b[j][i][j] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][i][j] < how_many) {
                                 space_used[j][i][j] = how_many;
@@ -229,6 +237,7 @@ public:
                         else if (b[3 - j][i][j] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[3 - j][i][j] < how_many) {
                                 space_used[3 - j][i][j] = how_many;
@@ -248,6 +257,7 @@ public:
                         else if (b[i][i][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[i][i][i] < how_many) {
                                 space_used[i][i][i] = how_many;
@@ -265,6 +275,7 @@ public:
                         else if (b[3 - i][3 - i][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[3 - i][3 - i][i] < how_many) {
                                 space_used[3 - i][3 - i][i] = how_many;
@@ -282,6 +293,7 @@ public:
                         else if (b[3 - i][i][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[3 - i][i][i] < how_many) {
                                 space_used[3 - i][i][i] = how_many;
@@ -299,6 +311,7 @@ public:
                         else if (b[i][3 - i][i] == g) ++how_many;
                     }
                     if (how_many != -1) {
+                        if (how_many == 4) return INT_MAX * g;
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[i][3 - i][i] < how_many) {
                                 space_used[i][3 - i][i] = how_many;
