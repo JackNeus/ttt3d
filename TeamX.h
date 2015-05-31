@@ -18,16 +18,16 @@ public:
 
     explicit TeamX(const duration<double> tta) : TTT3D(tta) {
         currentState = Node();
-        currentState.b[0][0][0] = 1;
+        //currentState.b[0][0][0] = 1;
         currentState.printBoard();
         cout << endl;
         Node a = currentState;
-        a.b[0][0][1] = -1;
+        //a.b[0][0][1] = -1;
         a.printBoard();
 
         cout << a.heuristic(0) << endl;
         Node b = currentState;
-        b.b[1][1][2] = -1;
+        //b.b[1][1][2] = -1;
         b.printBoard();
         cout << b.heuristic(0) << endl;
         /*currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
@@ -45,6 +45,7 @@ public:
         mv[1] = currentState.lastMove[1];
         mv[2] = currentState.lastMove[2];
         cout << "Done moving...\n";
+        cout << currentState.heuristic(1) << endl;
     }
 
     void print(){
@@ -52,7 +53,7 @@ public:
     }
 
     bool isWin(){
-        return currentState.isTerminal();        
+        return currentState.isTerminal();
     }
 
     struct Node{
@@ -138,7 +139,7 @@ public:
                     for (int j = 0; j < 4; ++j) {
                         for (int k = 0; k < 4; ++k) {
                             space_used[i][j][k] = 0;
-                            if (b[i][j][k] != 0) space_used[i][j][k] = 4; /// we don't want to count already used spaces
+                            if (b[i][j][k] != 0) space_used[i][j][k] = 5; /// we don't want to count already used spaces
                         }
                     }
                 }
@@ -157,6 +158,7 @@ public:
                         }
                         if (how_many == -1) continue;
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[z][j][k] < how_many) {
                                 space_used[z][j][k] = how_many;
@@ -178,6 +180,7 @@ public:
                         }
                         if (how_many == -1) continue;
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[j][z][k] < how_many) {
                                 space_used[j][z][k] = how_many;
@@ -200,6 +203,7 @@ public:
                         }
                         if (how_many == -1) continue;
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int z = 0; z < 4; ++z) { /// update space_used
                             if (space_used[j][k][z] < how_many) {
                                 space_used[j][k][z] = how_many;
@@ -222,6 +226,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][j][i] < how_many) {
                                 space_used[j][j][i] = how_many;
@@ -240,6 +245,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][3 - j][i] < how_many) {
                                 space_used[j][3 - j][i] = how_many;
@@ -260,6 +266,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[i][j][j] < how_many) {
                                 space_used[i][j][j] = how_many;
@@ -278,6 +285,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[i][3 - j][j] < how_many) {
                                 space_used[i][3 - j][j] = how_many;
@@ -298,6 +306,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[j][i][j] < how_many) {
                                 space_used[j][i][j] = how_many;
@@ -316,6 +325,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int j = 0; j < 4; ++j) {
                             if (space_used[3 - j][i][j] < how_many) {
                                 space_used[3 - j][i][j] = how_many;
@@ -336,6 +346,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[i][i][i] < how_many) {
                                 space_used[i][i][i] = how_many;
@@ -354,6 +365,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[3 - i][3 - i][i] < how_many) {
                                 space_used[3 - i][3 - i][i] = how_many;
@@ -372,6 +384,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[3 - i][i][i] < how_many) {
                                 space_used[3 - i][i][i] = how_many;
@@ -390,6 +403,7 @@ public:
                     }
                     if (how_many != -1) {
                         //if (how_many == 4) return (g == -1 ? INT_MAX : INT_MIN);
+                        if (how_many == 4) heur += g * 10000;
                         for (int i = 0; i < 4; ++i) {
                             if (space_used[i][3 - i][i] < how_many) {
                                 space_used[i][3 - i][i] = how_many;
@@ -404,10 +418,10 @@ public:
                     for (int j = 0; j < 4; ++j) {
                         for (int k = 0; k < 4; ++k) {
                             if (space_used[i][j][k] == 1) {
-                                heur += posneg * 1;
+                                heur += g * 1;
                             }
                             else if (space_used[i][j][k] == 2) {
-                                heur += posneg * 10;
+                                heur += g * 10;
                             }
                             else if (space_used[i][j][k] == 3) {
                                 //++IIIinarows;
@@ -417,10 +431,11 @@ public:
                                     //}
                                     //else return INT_MIN;
                                 //}
-                                heur += posneg * 1000;
+                                heur += g * 1000;
                             }
                             else if (space_used[i][j][k] == 4) {
-                                heur += posneg * 100000;
+                                heur += g * 100000;
+                                cout << "WHAT" << endl;
                             }
                         }
                     }
@@ -454,8 +469,8 @@ public:
             for(int k = 0; k < 4; k++){
                 for(int i = 0; i < 4; i++){
                     for(int j = 0; j < 4; j++){
-                        if(b[i][j][k] == -1) cout << "X";
-                        else if(b[i][j][k] == 1) cout << "O";
+                        if(b[j][i][k] == -1) cout << "X";
+                        else if(b[j][i][k] == 1) cout << "O";
                         else cout << ".";
                     }
                     cout << "\t";
@@ -470,7 +485,7 @@ public:
     int alphabeta(Node n, int depth, int alpha, int beta, int player, bool root) {
         if (depth == 0 || n.isTerminal()) {
             if(root) currentState = n;
-            return n.heuristic(!player);
+            return -1 * n.heuristic(!player);
         }
 
         if (player == 1) { /// MAXIMIZING PLAYER
