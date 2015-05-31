@@ -18,6 +18,18 @@ public:
 
     explicit TeamX(const duration<double> tta) : TTT3D(tta) {
         currentState = Node();
+        currentState.b[0][0][0] = 1;
+        currentState.printBoard();
+        cout << endl;
+        Node a = currentState;
+        a.b[0][0][1] = -1;
+        a.printBoard();
+
+        cout << a.heuristic(0) << endl;
+        Node b = currentState;
+        b.b[1][1][2] = -1;
+        b.printBoard();
+        cout << b.heuristic(0) << endl;
         /*currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
         currentState.printBoard();
         cout << currentState.heuristic(0) << endl;
