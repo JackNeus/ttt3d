@@ -18,41 +18,30 @@ public:
 
     explicit TeamX(const duration<double> tta) : TTT3D(tta) {
         currentState = Node();
-        //currentState.b[0][0][0] = 1;
-        currentState.printBoard();
-        cout << endl;
-        Node a = currentState;
-        //a.b[0][0][1] = -1;
-        a.printBoard();
+        //currentState.b[0][0][0] = currentState.b[1][1][1] = currentState.b[2][2][2] = currentState.b[3][3][3] = 1;
+        //cout << isWin() << " " << currentState.isTerminal() << endl;
+    }
 
-        cout << a.heuristic(0) << endl;
-        Node b = currentState;
-        //b.b[1][1][2] = -1;
-        b.printBoard();
-        cout << b.heuristic(0) << endl;
-        /*currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
-        currentState.printBoard();
-        cout << currentState.heuristic(0) << endl;
-        cout << currentState.heuristic(1) << endl;*/
+    void add_piece(int mv[]){
+        currentState.b[mv[0]][mv[1]][mv[2]] = -1;
     }
 
     void next_move(int mv[]) {
         if(mv[0] != -1) currentState.b[mv[0]][mv[1]][mv[2]] = -1;
         currentState.printBoard();
         cout << "Alphabeta-ing...\n";
-        alphabeta(currentState, 1, INT_MIN, INT_MAX, 0, 1);
+        alphabeta(currentState, 3, INT_MIN, INT_MAX, 0, 1);
         mv[0] = currentState.lastMove[0];
         mv[1] = currentState.lastMove[1];
         mv[2] = currentState.lastMove[2];
         cout << "Done moving...\n";
-        cout << currentState.heuristic(1) << endl;
     }
 
     void print(){
         currentState.printBoard();
     }
 
-    bool isWin(){
+    int isWin(){
         return currentState.isTerminal();
     }
 
@@ -70,29 +59,39 @@ public:
         }
         Node(grid g, vi last): b(g), lastMove(last) {}
 
-        bool isTerminal(){
+        int isTerminal(){
+            //Straight Line
             for(int i = 0; i < 4; i++){
-                int t = 0;
                 for(int k = 0; k < 4; k++){
-                    t += b[i][0][k];
+                    int t = 0;
+                    for(int z = 0; z < 4; z++){
+                        t += b[i][z][k];
+                    }
+                    if(t == 4) return 1;
+                    if(t == -4) return -1;  
                 }
-                if(t == 4 || t == -4) return true;
             }
-
+            //Straight Line
             for(int j = 0; j < 4; j++){
-                int t = 0;
                 for(int k = 0; k < 4; k++){
-                    t += b[0][j][k];
+                    int t = 0;
+                    for(int z = 0; z < 4; z++){
+                        t += b[z][j][k];
+                    } 
+                    if(t == 4) return 1;
+                    if(t == -4) return -1;
                 }
-                if(t == 4 || t == -4) return true;
             }
-
+            //Straight Line
             for(int i = 0; i < 4; i++){
-                int t = 0;
                 for(int j = 0; j < 4; j++){
-                    t += b[i][j][0];
+                    int t = 0;
+                    for(int z = 0; z < 4; z++){
+                        t += b[i][j][z];
+                    }
+                    if(t == 4) return 1;
+                    if(t == -4) return -1;
                 }
-                if(t == 4 || t == -4) return true;
             }
 
             for(int i = 0; i < 4; i++){
@@ -100,33 +99,62 @@ public:
                 for(int j = 0; j < 4; j++){
                     t += b[i][j][j];
                 }
-                if(t == 4 || t == -4) return true;
+                if(t == 4) return 1;
+                if(t == -4) return -1;
+            }
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
+                    t += b[i][3 - j][j];
+                }
+                if(t == 4) return 1;
+                if(t == -4) return -1;
             }
             for(int i = 0; i < 4; i++){
                 int t = 0;
                 for(int j = 0; j < 4; j++){
                     t += b[j][i][j];
                 }
-                if(t == 4 || t == -4) return true;
+                if(t == 4) return 1;
+                if(t == -4) return -1;
+            }
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
+                    t += b[j][i][3 - j];
+                }
+                if(t == 4) return 1;
+                if(t == -4) return -1;
             }
             for(int i = 0; i < 4; i++){
                 int t = 0;
                 for(int j = 0; j < 4; j++){
                     t += b[j][j][i];
                 }
-                if(t == 4 || t == -4) return true;
+                if(t == 4) return 1;
+                if(t == -4) return -1;
+            }
+            for(int i = 0; i < 4; i++){
+                int t = 0;
+                for(int j = 0; j < 4; j++){
+                    t += b[j][3 - j][i];
+                }
+                if(t == 4) return 1;
+                if(t == -4) return -1;
             }
             int t = 0;
             for(int i = 0; i < 4; i++){
                 t += b[i][i][i];
             }
-            if(t == 4 || t == -4) return true;
+            if(t == 4) return 1;
+            if(t == -4) return -1;
             t = 0;
             for(int i = 0; i < 4; i++){
-                t += b[i][3 - i][i];
+                t += b[i][i][3 - i];
             }
-            if(t == 4 || t == -4) return true;
-            return false;
+            if(t == 4) return 1;
+            if(t == -4) return -1;
+            return 0;
         }
 
         int heuristic(int player){ /// player 1 for us, -1 for them
@@ -483,7 +511,7 @@ public:
     Node currentState;
 
     int alphabeta(Node n, int depth, int alpha, int beta, int player, bool root) {
-        if (depth == 0 || n.isTerminal()) {
+        if (depth == 0 || n.isTerminal() != 0) {
             if(root) currentState = n;
             return -1 * n.heuristic(!player);
         }
