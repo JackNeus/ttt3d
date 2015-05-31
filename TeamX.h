@@ -18,18 +18,21 @@ public:
 
     explicit TeamX(const duration<double> tta) : TTT3D(tta) {
         currentState = Node();
-        currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
+        /*currentState.b[0][0][0] = currentState.b[0][0][1] = currentState.b[0][0][2] = 1;
         currentState.printBoard();
         cout << currentState.heuristic(0) << endl;
-        cout << currentState.heuristic(1) << endl;
+        cout << currentState.heuristic(1) << endl;*/
     }
 
     void next_move(int mv[]) {
         if(mv[0] != -1) currentState.b[mv[0]][mv[1]][mv[2]] = -1;
-        alphabeta(currentState, 64, INT_MIN, INT_MAX, 0, 1);
+        currentState.printBoard();
+        cout << "Alphabeta-ing...\n";
+        alphabeta(currentState, 1, INT_MIN, INT_MAX, 0, 1);
         mv[0] = currentState.lastMove[0];
         mv[1] = currentState.lastMove[1];
         mv[2] = currentState.lastMove[2];
+        cout << "Done moving...\n";
     }
 
     void print(){
@@ -454,6 +457,7 @@ public:
 
     int alphabeta(Node n, int depth, int alpha, int beta, int player, bool root) {
         if (depth == 0 || n.isTerminal()) {
+            if(root) currentState = n;
             return n.heuristic(!player);
         }
 
@@ -472,6 +476,7 @@ public:
                     break;
                 }
             }
+            if(root) currentState = n;
             return v;
         }
         else { /// MINIMIZER
@@ -489,6 +494,7 @@ public:
                     break;
                 }
             }
+            if(root) currentState = n;
             return v;
         }
 
